@@ -55,4 +55,7 @@ class NumberDecoder:
         if self.fora_intervalo:
             return json.dumps({'mensagem': 'Fora do intervalo'})
 
+        if self.negativo:
+            self.mensagem = 'menos ' + self.mensagem
+
         return json.dumps({'mensagem': self.mensagem})
