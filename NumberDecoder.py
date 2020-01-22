@@ -4,16 +4,24 @@ class NumberDecoder:
     def __init__(self, numero):
         self.mensagem = ''
         self.negativo = False
+        self.numero = int(numero)
         self.milhar = numero // 1000
         self.resto = numero % 1000
 
     def proccess(self):
+        self.detecta_fora_intervalo()
+        if self.fora_intervalo: 
+            return
         self.detecta_negativo()
         self.tradutor_milhar()
         self.tradutor_centena()
         self.tradutor_dezena()
         self.tradutor_unidade()
         
+
+    def detecta_fora_intervalo(self):
+        if self.numero > 99999 or self.numero < -99999:
+            self.fora_intervalo = True
 
     def detecta_negativo(self, numero):
         if numero < 0:
@@ -44,4 +52,7 @@ class NumberDecoder:
         
 
     def json_output(self):
+        if self.fora_intervalo:
+            return json.dumps({'mensagem': 'Fora do intervalo'})
+
         return json.dumps({'mensagem': self.mensagem})
